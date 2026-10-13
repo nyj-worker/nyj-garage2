@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>남양주시 우리동네 화물주차장 2.0 - 스마트 분산형 화물차 주차 플랫폼</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Google Fonts: Pretendard / Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            nyj: {
+              blue: '#005bac',
+              deep: '#003875',
+              green: '#009b4d',
+              lightGreen: '#48bb78',
+              gray: '#f4f6f9',
+              dark: '#1e293b'
+            }
+          },
+          fontFamily: {
+            sans: ['Pretendard', 'Noto Sans KR', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .hero-pattern {
+      background-color: #003875;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px), radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, #003875 1.5px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+
+    .pulse-ring {
+      animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7);
+      }
+
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 12px rgba(72, 187, 120, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
+      }
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-slate-50 text-slate-800 antialiased selection:bg-nyj-blue selection:text-white">
+
+  <!-- Top GNB Bar -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+
+      <!-- Logo Area -->
+      <a href="#" class="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+        <div
+          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-nyj-deep flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-truck-moving text-nyj-lightGreen"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg md:text-xl font-extrabold text-slate-900 tracking-tight leading-none whitespace-nowrap">
+            우리동네 화물주차장 <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-nyj-blue to-nyj-green">2.0</span>
+          </h1>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav
+        class="hidden lg:flex items-center gap-4 xl:gap-6 text-xs xl:text-sm font-semibold text-slate-600 whitespace-nowrap">
+        <a href="#about" class="hover:text-nyj-blue transition-colors">사업개요</a>
+        <a href="#compare" class="hover:text-nyj-blue transition-colors">1.0 vs 2.0 혁신</a>
+        <a href="#map-section" class="hover:text-nyj-blue transition-colors">주차장 현황 (7개소)</a>
+        <a href="#interactive-qr" class="hover:text-nyj-blue transition-colors flex items-center gap-1.5 text-nyj-blue">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          스마트 QR 체험
+        </a>
+        <a href="#landowner" class="hover:text-nyj-blue transition-colors">토지주/중개사 참여</a>
+        <a href="#history" class="hover:text-nyj-blue transition-colors">적극행정 스토리</a>
+      </nav>
+
+      <!-- Action Button -->
+      <div class="hidden sm:flex items-center gap-2.5 shrink-0 whitespace-nowrap">
+        <button onclick="scrollToSection('interactive-qr')"
+          class="px-3.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-all flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-qrcode text-nyj-blue"></i> 단속연계 QR체험
+        </button>
+        <button onclick="scrollToSection('landowner')"
+          class="px-3.5 py-2 text-xs font-bold text-white bg-nyj-blue hover:bg-nyj-deep shadow-md shadow-blue-500/20 rounded-lg transition-all flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-map-location-dot"></i> 유휴부지 신청
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
+        <i class="fa-solid fa-bars text-2xl"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+      <a href="#about" class="block py-2 text-slate-700 font-medium" onclick="toggleMobileMenu()">사업개요</a>
+      <a href="#compare" class="block py-2 text-slate-700 font-medium" onclick="toggleMobileMenu()">1.0 vs 2.0 혁신</a>
+      <a href="#map-section" class="block py-2 text-slate-700 font-medium" onclick="toggleMobileMenu()">주차장 현황 (7개소)</a>
+      <a href="#interactive-qr" class="block py-2 text-nyj-blue font-bold" onclick="toggleMobileMenu()">스마트 QR 체험</a>
+      <a href="#landowner" class="block py-2 text-slate-700 font-medium" onclick="toggleMobileMenu()">토지주/중개사 참여</a>
+      <a href="#history" class="block py-2 text-slate-700 font-medium" onclick="toggleMobileMenu()">적극행정 스토리</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="scrollToSection('interactive-qr'); toggleMobileMenu()"
+          class="w-full py-2.5 text-center text-sm font-bold bg-slate-100 rounded-lg">단속연계 QR체험</button>
+        <button onclick="scrollToSection('landowner'); toggleMobileMenu()"
+          class="w-full py-2.5 text-center text-sm font-bold text-white bg-nyj-blue rounded-lg">유휴부지 신청</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-pattern text-white relative overflow-hidden py-16 md:py-24">
+    <!-- Background Accents -->
+    <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-nyj-lightGreen/10 rounded-full blur-3xl pointer-events-none">
+    </div>
+    <div class="absolute -left-20 -top-20 w-96 h-96 bg-nyj-blue/30 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+        <!-- Hero Text -->
+        <div class="lg:col-span-7 space-y-6">
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-medium text-emerald-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            전국 최초 소규모 분산형 화물차 주차 모델의 진화
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl font-black leading-tight tracking-tight">
+            단속 위주에서 <span
+              class="text-emerald-400 underline decoration-wavy decoration-emerald-500/50 underline-offset-8">공급
+              중심</span>으로,<br>
+            이제 <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-white">스마트
+              2.0</span>으로 안내합니다
+          </h1>
+
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
+            수백억 원의 예산과 5년이 걸리던 대규모 공영차고지 대신,
+            <strong>도심 유휴부지</strong>를 활용해 <strong>2개월 만에 비예산</strong>으로 신속 구축!
+            확보된 주차장에 <strong>단속 경고장 QR 연계 시스템</strong>을 결합하여 합법 주차를 원스톱 안내합니다.
+          </p>
+
+          <!-- Key Metrics Grid in Hero -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3.5 border border-white/10 text-center">
+              <span class="text-xs text-slate-300 block mb-1">운영 주차장</span>
+              <span class="text-2xl font-black text-emerald-400">7개소</span>
+              <span class="text-[10px] text-slate-300 block mt-0.5">(목표 5개소 초과)</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3.5 border border-white/10 text-center">
+              <span class="text-xs text-slate-300 block mb-1">확보 주차면</span>
+              <span class="text-2xl font-black text-white">223면</span>
+              <span class="text-[10px] text-emerald-300 block mt-0.5">합법 밤샘주차</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3.5 border border-white/10 text-center">
+              <span class="text-xs text-slate-300 block mb-1">시 예산 절감</span>
+              <span class="text-2xl font-black text-yellow-300">0원</span>
+              <span class="text-[10px] text-slate-300 block mt-0.5">350억 상당 비예산</span>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3.5 border border-white/10 text-center">
+              <span class="text-xs text-slate-300 block mb-1">조성 기간</span>
+              <span class="text-2xl font-black text-cyan-300">1~2개월</span>
+              <span class="text-[10px] text-slate-300 block mt-0.5">기존 4~5년 단축</span>
+            </div>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
+            <button onclick="scrollToSection('interactive-qr')"
+              class="w-full sm:w-auto px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold rounded-xl shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer">
+              <i class="fa-solid fa-qrcode text-lg"></i>
+              <span>2.0 QR 모의체험 해보기</span>
+            </button>
+            <a href="https://garage-gules-phi.vercel.app/" target="_blank" rel="noopener noreferrer"
+              class="w-full sm:w-auto px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 transition-all flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer">
+              <i class="fa-solid fa-location-crosshairs"></i>
+              <span>우리동네 주차장 찾기</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Card Feature Visual -->
+        <div class="lg:col-span-5">
+          <div
+            class="relative bg-gradient-to-b from-slate-900/90 to-slate-950/90 rounded-2xl p-6 border border-slate-700/60 shadow-2xl backdrop-blur-xl">
+            <!-- Badge Header -->
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+              <div class="flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">남양주 스마트 적극행정 모델</span>
+              </div>
+              <span class="text-xs px-2.5 py-1 bg-blue-900/50 text-blue-300 rounded border border-blue-700/50">경기도 우수기관
+                선정</span>
+            </div>
+
+            <!-- Simulated Card Content -->
+            <div class="space-y-4">
+              <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="text-xs font-semibold text-emerald-400">화물주차장 2.0 스마트 솔루션</span>
+                    <h2 class="text-lg font-bold text-white mt-0.5">단속 경고장 발부 시 QR 즉시 제공</h2>
+                  </div>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                  </div>
+                </div>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                  "단속만 하지 말고 주차할 곳을 알려달라"는 차주의 호소에 응답!
+                  단속 통지서에 QR코드를 인쇄하여 5분 내 가장 가까운 유휴 화물주차장으로 안내합니다.
+                </p>
+              </div>
+
+              <!-- Workflow Mini Diagram -->
+              <div class="grid grid-cols-3 gap-2 text-center text-[11px] font-medium text-slate-300">
+                <div class="p-2.5 bg-slate-800/40 rounded-lg border border-slate-700/50">
+                  <div
+                    class="w-7 h-7 mx-auto mb-1 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                  </div>
+                  1. 야간 단속 계도
+                </div>
+                <div class="p-2.5 bg-slate-800/40 rounded-lg border border-slate-700/50">
+                  <div
+                    class="w-7 h-7 mx-auto mb-1 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                    <i class="fa-solid fa-qrcode"></i>
+                  </div>
+                  2. QR 스마트 조회
+                </div>
+                <div class="p-2.5 bg-slate-800/40 rounded-lg border border-slate-700/50">
+                  <div
+                    class="w-7 h-7 mx-auto mb-1 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                    <i class="fa-solid fa-square-parking"></i>
+                  </div>
+                  3. 합법 주차 이동
+                </div>
+              </div>
+
+              <!-- Quick Quote -->
+              <div
+                class="p-3 bg-blue-950/40 rounded-xl border border-blue-800/40 text-xs text-blue-200 flex items-center gap-3">
+                <i class="fa-solid fa-quote-left text-lg text-blue-400 opacity-60"></i>
+                <p class="italic leading-relaxed">
+                  "주차면을 만든 1.0에 이어, 차주가 실시간으로 찾아갈 수 있는 2.0 소프트웨어를 완성했습니다."
+                  <span class="block text-[11px] font-bold text-slate-400 not-italic mt-0.5">- 남양주시 자동차관리과 화물팀</span>
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem & Background Section -->
+  <section id="about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span
+          class="text-xs font-bold text-nyj-blue tracking-widest uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-200">추진
+          배경 & 패러다임 전환</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-4">
+          왜 ‘우리동네 화물주차장’이어야 했을까요?
+        </h2>
+        <p class="text-slate-600 text-base leading-relaxed">
+          남양주시는 대형 물류터미널 31개소가 밀집해 있고 등록 화물차만 7,500대에 달합니다.
+          하지만 기존의 대규모 공영차고지 조성 방식으로는 현실적인 문제를 해결할 수 없었습니다.
+        </p>
+      </div>
+
+      <!-- 3 Traditional Bottlenecks vs Solution -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Bottleneck 1 -->
+        <div
+          class="bg-slate-50 border border-slate-200/80 rounded-2xl p-7 relative hover:shadow-lg transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-2xl mb-5">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded">기존 한계 1</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">4~5년의 긴 소요 시간</h3>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4">
+            대규모 공영차고지는 입지 선정, 도시계획 변경, 토지 수용, 인허가 절차로 완공까지 4~5년 이상의 오랜 기간이 소요되었습니다.
+          </p>
+          <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 font-medium">
+            <strong class="text-emerald-700">남양주 혁신:</strong> 유휴부지 임대 활용으로 <strong>최대 2개월 내 즉시 준공</strong>
+          </div>
+        </div>
+
+        <!-- Bottleneck 2 -->
+        <div
+          class="bg-slate-50 border border-slate-200/80 rounded-2xl p-7 relative hover:shadow-lg transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-5">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">기존 한계 2</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">300~500억 원의 막대한 예산</h3>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4">
+            1면당 약 1.2억~1.5억 원의 천문학적 세금이 투입되어 지자체 재정에 심각한 부담을 안겨주었습니다.
+          </p>
+          <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 font-medium">
+            <strong class="text-emerald-700">남양주 혁신:</strong> 민간투자(빅모빌리티) 협력으로 <strong>시 예산 0원(비예산)</strong>
+          </div>
+        </div>
+
+        <!-- Bottleneck 3 -->
+        <div
+          class="bg-slate-50 border border-slate-200/80 rounded-2xl p-7 relative hover:shadow-lg transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-nyj-blue flex items-center justify-center text-2xl mb-5">
+            <i class="fa-solid fa-route"></i>
+          </div>
+          <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">기존 한계 3</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">외곽 집중으로 이용 기피</h3>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4">
+            거점 차고지가 주거지와 먼 외곽에 생기면 화물차 기사들이 출퇴근 어려움으로 이용을 꺼려 도심 불법 밤샘주차가 반복되었습니다.
+          </p>
+          <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 font-medium">
+            <strong class="text-emerald-700">남양주 혁신:</strong> 생활권 곳곳 <strong>소규모 분산 배치 & 승용차 맞바꿈 환승</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Core Principle Box: Park & Ride Concept -->
+      <div
+        class="mt-12 bg-gradient-to-r from-blue-900 via-nyj-deep to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div class="space-y-2">
+            <div
+              class="inline-flex items-center gap-2 text-xs font-bold text-emerald-300 bg-white/10 px-3 py-1 rounded-full">
+              <i class="fa-solid fa-lightbulb"></i> 실용적인 이용 패턴 반영: 화물차 + 승용차 환승 모델
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold">"출근할 때 승용차 주차 ➔ 퇴근 후 승용차로 귀가"</h3>
+            <p class="text-slate-300 text-sm max-w-2xl">
+              단순 주차를 넘어 화물기사의 출퇴근 패턴에 맞춰 화물차 1대 이용료에 자가용 승용차 교대주차 권한을 기본 제공하는 ‘생활밀착형 환승 거점’ 기능까지 수행합니다.
+            </p>
+          </div>
+          <div class="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/25">
+            <div class="text-center">
+              <i class="fa-solid fa-car text-emerald-400 text-xl mb-1"></i>
+              <span class="block text-xs font-semibold">내 승용차</span>
+            </div>
+            <i class="fa-solid fa-arrow-right-arrow-left text-white text-lg"></i>
+            <div class="text-center">
+              <i class="fa-solid fa-truck text-emerald-400 text-xl mb-1"></i>
+              <span class="block text-xs font-semibold">영업용 화물차</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 1.0 vs 2.0 Comparison Matrix -->
+  <section id="compare" class="py-20 bg-slate-100 border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span
+          class="text-xs font-bold text-emerald-700 tracking-widest uppercase bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">단계별
+          고도화 전략</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-4">
+          하드웨어 공급 1.0에서 스마트 안내 2.0으로 진화
+        </h2>
+        <p class="text-slate-600 text-base leading-relaxed">
+          유휴부지를 발굴하여 합법적 주차면을 공급했던 <strong>1.0의 성공 기반</strong> 위에,<br class="hidden sm:inline">
+          차주와 현장 단속을 디지털로 직접 이어주는 <strong>2.0 소프트웨어 시스템</strong>이 시작됩니다.
+        </p>
+      </div>
+
+      <!-- Comparative Table / Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto items-start">
+
+        <!-- Version 1.0 Card -->
+        <div class="bg-white rounded-2xl p-7 border-2 border-slate-200 shadow-sm relative">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-sm font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">Phase 1</span>
+            <span class="text-xs text-slate-400 font-semibold">2025년 ~ 현재</span>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-2xl font-black text-slate-800">화물주차장 1.0</h3>
+            <button type="button" onclick="openPreviewModal('iframe', '화물주차장 1.0 사업 소개', 'https://we-garage2.netlify.app/')"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-nyj-deep text-white text-xs font-bold rounded-lg border border-blue-500 shadow-sm shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer">
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-blue-200"></i>
+              <span>1.0 사업 소개</span>
+            </button>
+          </div>
+          <p class="text-sm text-slate-500 mb-6">"하드웨어 인프라 확보 및 비예산 분산 조성"</p>
+
+          <ul class="space-y-4 text-sm text-slate-700">
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-check text-slate-400 mt-1"></i>
+              <div>
+                <strong>유휴부지 민관협력 발굴:</strong>
+                <p class="text-xs text-slate-500 mt-0.5">남양주시-토지주-빅모빌리티 간 삼자 협약 체결</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-check text-slate-400 mt-1"></i>
+              <div>
+                <strong>목표 초과 달성:</strong>
+                <p class="text-xs text-slate-500 mt-0.5">당초 5개소 목표 ➔ 총 7개소 223면 확보 성공</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-check text-slate-400 mt-1"></i>
+              <div>
+                <strong>밤샘주차 허용구역 조례 지정:</strong>
+                <p class="text-xs text-slate-500 mt-0.5">합법적 차고지 증명 및 밤샘 주차 제도적 보장</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-exclamation text-amber-500 mt-1"></i>
+              <div class="text-amber-800">
+                <strong>1.0의 한계점:</strong>
+                <p class="text-xs text-amber-700 mt-0.5">주차장 위치를 전화로 문의해야 했고, 단속 현장과의 정보 연계 부재</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Version 2.0 Column Wrapper -->
+        <div class="flex flex-col gap-3">
+
+          <!-- Version 2.0 Card (Highlighted) -->
+          <div
+            class="bg-gradient-to-b from-white to-blue-50/50 rounded-2xl p-7 border-2 border-nyj-blue shadow-xl relative overflow-hidden">
+            <div
+              class="absolute top-0 right-0 bg-gradient-to-l from-nyj-blue to-nyj-green text-white text-[11px] font-extrabold px-4 py-1.5 rounded-bl-xl uppercase tracking-wider">
+              Now Active 2.0
+            </div>
+
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-sm font-bold text-nyj-blue bg-blue-100 px-3 py-1 rounded-full">Phase 2</span>
+              <span class="text-xs text-emerald-600 font-bold">2026년 5월 수립 ~ 추진</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-2xl font-black text-slate-900">화물주차장 2.0</h3>
+              <button type="button" onclick="openPreviewModal('image', '「우리동네 화물주차장 2.0」 추진 계획', 'plan1.jpg')"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded-lg border border-orange-400 shadow-sm shadow-orange-500/20 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer">
+                <i class="fa-solid fa-file-lines text-[10px] text-orange-100"></i>
+                <span>추진계획</span>
+              </button>
+            </div>
+            <p class="text-sm text-nyj-blue font-semibold mb-6">"스마트 안내 소프트웨어 & 계도 연계 통합 솔루션"</p>
+
+            <ul class="space-y-4 text-sm text-slate-800">
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs shrink-0 mt-0.5">
+                  <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <div>
+                  <strong class="text-slate-900">단속 경고장 QR 연계 시스템:</strong>
+                  <p class="text-xs text-slate-600 mt-0.5">불법주차 단속 경고장에 QR코드를 부착하여 가까운 합법 주차장 즉시 안내</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs shrink-0 mt-0.5">
+                  <i class="fa-solid fa-mobile"></i>
+                </div>
+                <div>
+                  <strong class="text-slate-900">온라인 전용 안내 플랫폼 (구축률 80%+):</strong>
+                  <p class="text-xs text-slate-600 mt-0.5">모바일에서 위치, 실시간 잔여면, 이용료 확인 및 네비게이션 바로 연결</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs shrink-0 mt-0.5">
+                  <i class="fa-solid fa-handshake"></i>
+                </div>
+                <div>
+                  <strong class="text-slate-900">공인중개사 협력 부지 발굴망 확대:</strong>
+                  <p class="text-xs text-slate-600 mt-0.5">한국공인중개사협회 남양주시지회와 직결하여 신규 자투리땅 실시간 확보</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs shrink-0 mt-0.5">
+                  <i class="fa-solid fa-award"></i>
+                </div>
+                <div>
+                  <strong class="text-slate-900">전국 확산 표준 모델화:</strong>
+                  <p class="text-xs text-slate-600 mt-0.5">원주시 등 지자체 벤치마킹 지원 및 경기도 전역 확산 선도</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 2026년 주요 활동 사항 Button & Dropdown Area -->
+          <div class="w-full">
+            <button type="button" onclick="toggleActivityList()" id="activityToggleBtn"
+              class="w-full py-3.5 px-5 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-600 hover:via-amber-600 hover:to-orange-600 text-white font-bold text-sm rounded-2xl border border-orange-400 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 transition-all flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-white/20 text-white flex items-center justify-center text-xs">
+                  <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <span class="tracking-tight text-white font-black text-sm">2026년 주요 활동 사항</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-orange-100 group-hover:text-white">
+                <span class="text-[11px] font-semibold text-orange-100">열기 / 닫기</span>
+                <i id="activityToggleIcon" class="fa-solid fa-chevron-down transition-transform duration-200"></i>
+              </div>
+            </button>
+
+            <!-- 펼침 목록 Container -->
+            <div id="activityDropdown" class="hidden mt-2.5 bg-white rounded-2xl border-2 border-slate-200 shadow-lg p-3 space-y-2">
+
+              <!-- 2026. 02 -->
+              <button type="button" onclick="openPreviewModal('iframe', '한국공인중개사협회 남양주시지회 협약 (경기일보)', 'https://www.kgnews.co.kr/news/article.html?no=882952')"
+                class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-2.5 rounded-xl hover:bg-blue-50/60 border border-transparent hover:border-blue-200 transition-all group cursor-pointer text-left">
+                <div class="flex items-start gap-2.5 text-xs min-w-0">
+                  <span class="px-2 py-0.5 rounded bg-blue-100 text-nyj-blue font-bold text-[11px] shrink-0 mt-0.5">2026. 02</span>
+                  <span class="text-slate-800 font-semibold group-hover:text-nyj-blue break-keep">한국공인중개사협회 남양주시지회 협약</span>
+                </div>
+                <span class="self-end sm:self-auto inline-flex items-center gap-1 text-[11px] font-bold text-nyj-blue bg-blue-50 px-2.5 py-1 rounded-lg shrink-0 border border-blue-200 group-hover:bg-nyj-blue group-hover:text-white transition-all">
+                  <span>기사보기</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                </span>
+              </button>
+
+              <!-- 2026. 03 -->
+              <button type="button" onclick="openPreviewModal('iframe', '(한겨레 신문) 도심 노는 땅이 화물차 공간으로', 'https://www.hani.co.kr/arti/area/capital/1249017.html')"
+                class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-2.5 rounded-xl hover:bg-blue-50/60 border border-transparent hover:border-blue-200 transition-all group cursor-pointer text-left">
+                <div class="flex items-start gap-2.5 text-xs min-w-0">
+                  <span class="px-2 py-0.5 rounded bg-blue-100 text-nyj-blue font-bold text-[11px] shrink-0 mt-0.5">2026. 03</span>
+                  <span class="text-slate-800 font-semibold group-hover:text-nyj-blue break-keep">(한겨례 신문) 도심 노는 땅이 화물차 공간으로</span>
+                </div>
+                <span class="self-end sm:self-auto inline-flex items-center gap-1 text-[11px] font-bold text-nyj-blue bg-blue-50 px-2.5 py-1 rounded-lg shrink-0 border border-blue-200 group-hover:bg-nyj-blue group-hover:text-white transition-all">
+                  <span>기사보기</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                </span>
+              </button>
+
+              <!-- 2026. 05 -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <div class="flex items-start gap-2.5 text-xs min-w-0">
+                  <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[11px] shrink-0 mt-0.5">2026. 05</span>
+                  <span class="text-slate-800 font-medium break-keep">「우리동네 화물주차장 2.0」 추진계획 결재 확정</span>
+                </div>
+                <span class="self-end sm:self-auto text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg shrink-0 border border-emerald-200">
+                  완료
+                </span>
+              </div>
+
+              <!-- 2026. 07 -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <div class="flex items-start gap-2.5 text-xs min-w-0">
+                  <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[11px] shrink-0 mt-0.5">2026. 07</span>
+                  <span class="text-slate-800 font-medium break-keep">진접읍 장현리 7호점 개소 (총 223면 달성)</span>
+                </div>
+                <span class="self-end sm:self-auto text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg shrink-0 border border-emerald-200">
+                  개소
+                </span>
+              </div>
+
+              <!-- 2026. 08 -->
+              <button type="button" onclick="openPreviewModal('image', '우리동네 화물주차장 조성을 위한 간담회 (남양주시, 공인중개사협회, 아마노코리아)', 'act1.jpg')"
+                class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-2.5 rounded-xl hover:bg-orange-50/60 border border-transparent hover:border-orange-200 transition-all group cursor-pointer text-left">
+                <div class="flex items-start gap-2.5 text-xs min-w-0">
+                  <span class="px-2 py-0.5 rounded bg-orange-100 text-orange-800 font-bold text-[11px] shrink-0 mt-0.5">2026. 08</span>
+                  <span class="text-slate-800 font-semibold group-hover:text-orange-600 break-keep">우리동네 화물주차장 조성을 위한 간담회 (남양주시, 공인중개사협회, 아마노코리아)</span>
+                </div>
+                <span class="self-end sm:self-auto inline-flex items-center gap-1 text-[11px] font-bold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-lg shrink-0 border border-orange-200 group-hover:bg-orange-500 group-hover:text-white transition-all">
+                  <i class="fa-solid fa-image text-[10px]"></i>
+                  <span>사진보기</span>
+                </span>
+              </button>
+
+              <!-- 2026. 09 -->
+              <button type="button" onclick="openPreviewModal('image', '(화도읍) 찾아가는 설명회 개최 (아마노코리아 참석)', 'act2.jpg')"
+                class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-2.5 rounded-xl hover:bg-orange-50/60 border border-transparent hover:border-orange-200 transition-all group cursor-pointer text-left">
+                <div class="flex items-start gap-2.5 text-xs min-w-0">
+                  <span class="px-2 py-0.5 rounded bg-orange-100 text-orange-800 font-bold text-[11px] shrink-0 mt-0.5">2026. 09</span>
+                  <span class="text-slate-800 font-semibold group-hover:text-orange-600 break-keep">(화도읍) 찾아가는 설명회 개최 (아마노코리아 참석)</span>
+                </div>
+                <span class="self-end sm:self-auto inline-flex items-center gap-1 text-[11px] font-bold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-lg shrink-0 border border-orange-200 group-hover:bg-orange-500 group-hover:text-white transition-all">
+                  <i class="fa-solid fa-image text-[10px]"></i>
+                  <span>사진보기</span>
+                </span>
+              </button>
+
+              <!-- 2026. 10 -->
+              <button type="button" onclick="openPreviewModal('iframe', '[적극행정사례 소개] “단속만으론 해결 안 돼”…남양주시, 예산 없이 화물주차장 7개소·223면 확보', 'https://www.dailyguard.co.kr/news/articleView.html?idxno=313258')"
+                class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 sm:p-2.5 rounded-xl hover:bg-blue-50/60 border border-transparent hover:border-blue-200 transition-all group cursor-pointer text-left">
+                <div class="flex items-start gap-2.5 text-xs min-w-0">
+                  <span class="px-2 py-0.5 rounded bg-blue-100 text-nyj-blue font-bold text-[11px] shrink-0 mt-0.5">2026. 10</span>
+                  <span class="text-slate-800 font-semibold group-hover:text-nyj-blue break-keep leading-snug">[적극행정사례 소개] “단속만으론 해결 안 돼”…남양주시, 예산 없이 화물주차장 7개소·223면 확보</span>
+                </div>
+                <span class="self-end sm:self-auto inline-flex items-center gap-1 text-[11px] font-bold text-nyj-blue bg-blue-50 px-2.5 py-1 rounded-lg shrink-0 border border-blue-200 group-hover:bg-nyj-blue group-hover:text-white transition-all">
+                  <span>기사보기</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                </span>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Parking Map & Directory Section -->
+  <section id="map-section" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span
+            class="text-xs font-bold text-nyj-blue tracking-widest uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-200">현재
+            운영 현황</span>
+          <div class="flex flex-wrap items-center gap-3 mt-3">
+            <h2 class="text-3xl font-extrabold text-slate-900">남양주시 우리동네 화물주차장 7개소</h2>
+            <a href="construction_status.html"
+              class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 rounded-lg shadow-sm hover:shadow transition-all">
+              <span>조성현황</span>
+              <i class="fa-solid fa-chevron-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex items-center gap-2 mt-4 md:mt-0 overflow-x-auto pb-2 md:pb-0">
+          <button onclick="filterLots('all')" id="filter-all"
+            class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-nyj-blue text-white shadow-sm transition-all">전체
+            (7개소)</button>
+          <button onclick="filterLots('hwado')" id="filter-hwado"
+            class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">화도
+            권역 (3개소)</button>
+          <button onclick="filterLots('jinjeop')" id="filter-jinjeop"
+            class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">진접
+            권역 (3개소)</button>
+          <button onclick="filterLots('other')" id="filter-other"
+            class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">기타
+            권역 (1개소)</button>
+        </div>
+      </div>
+
+      <!-- Map & Lot List Split Container -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- Left: Interactive Parking Lot List -->
+        <div class="lg:col-span-7 space-y-4" id="parkingLotContainer">
+          <!-- Parking lot items will be rendered via JS or static with dynamic interaction -->
+        </div>
+
+        <!-- Right: Detail / Simulated Geo Status Card -->
+        <div class="lg:col-span-5 lg:sticky lg:top-28">
+          <div class="bg-slate-900 rounded-2xl p-6 text-white shadow-xl border border-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-map-pin text-rose-500"></i>
+                <span class="text-sm font-bold text-slate-200">선택한 주차장 상세 제원</span>
+              </div>
+              <span id="detailBadge"
+                class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">실시간
+                운영중</span>
+            </div>
+
+            <!-- Dynamic Selected Lot Details -->
+            <div id="lotDetailContent" class="space-y-4">
+              <div>
+                <h3 id="detailTitle" class="text-xl font-bold text-white">화도읍 1호점 (묵현리)</h3>
+                <p id="detailAddress" class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                  <i class="fa-solid fa-location-dot text-slate-500"></i>
+                  남양주시 화도읍 묵현리 396-11
+                </p>
+              </div>
+
+              <!-- Quick Specs -->
+              <div class="grid grid-cols-3 gap-2.5 pt-2">
+                <div class="bg-slate-800/80 rounded-xl p-3 border border-slate-700/60 text-center">
+                  <span class="text-[10px] text-slate-400 block">주차 규모</span>
+                  <span id="detailCapacity" class="text-lg font-black text-emerald-400">42면</span>
+                </div>
+                <div class="bg-slate-800/80 rounded-xl p-3 border border-slate-700/60 text-center">
+                  <span class="text-[10px] text-slate-400 block">바닥 포장</span>
+                  <span id="detailSurface" class="text-xs font-bold text-slate-200 mt-1 block">쇄석/혼합재</span>
+                </div>
+                <div class="bg-slate-800/80 rounded-xl p-3 border border-slate-700/60 text-center">
+                  <span class="text-[10px] text-slate-400 block">보안 시설</span>
+                  <span id="detailSecurity" class="text-xs font-bold text-blue-400 mt-1 block">CCTV·차단기</span>
+                </div>
+              </div>
+
+              <!-- Features checklist -->
+              <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/60 space-y-2 text-xs">
+                <div class="flex items-center justify-between text-slate-300">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-amber-400"></i> 밤샘주차 합법 허용
+                  </span>
+                  <span class="text-emerald-400 font-bold">24시간 운영</span>
+                </div>
+                <div class="flex items-center justify-between text-slate-300">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-car-side text-blue-400"></i> 승용차 교대주차 혜택
+                  </span>
+                  <span class="text-white font-bold">무료 1:1 환승</span>
+                </div>
+                <div class="flex items-center justify-between text-slate-300">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-file-contract text-emerald-400"></i> 차고지 증명서 발급
+                  </span>
+                  <span class="text-white font-bold">가능</span>
+                </div>
+              </div>
+
+              <!-- Call to action inside detail -->
+              <div class="pt-2 flex gap-3">
+                <button onclick="openNavigationModal()"
+                  class="flex-1 py-3 bg-nyj-blue hover:bg-blue-600 rounded-xl text-xs font-bold text-white transition-all flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-diamond-turn-right"></i> 모바일 길안내 연결
+                </button>
+                <button onclick="openRegisterInquiryModal()"
+                  class="py-3 px-4 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-xs font-bold text-white transition-all">
+                  입차/월주차 신청
+                </button>
+              </div>
+            </div>
+
+            <!-- Notice note -->
+            <div class="mt-5 pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-start gap-2">
+              <i class="fa-solid fa-circle-info text-blue-400 mt-0.5"></i>
+              <span>월 정기주차는 ㈜빅모빌리티 '트럭헬퍼' 플랫폼과 연계되어 실시간 자동 배정됩니다.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SMART 2.0 Interactive QR Experience Simulator -->
+  <section id="interactive-qr"
+    class="py-20 bg-gradient-to-b from-slate-900 via-slate-950 to-nyj-deep text-white relative overflow-hidden">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span
+          class="text-xs font-bold text-emerald-400 tracking-widest uppercase bg-emerald-500/10 px-3.5 py-1 rounded-full border border-emerald-500/30">
+          <i class="fa-solid fa-sparkles"></i> 2.0 핵심 기술 시뮬레이션
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-4">
+          야간 단속 경고장과 스마트 2.0 QR코드의 결합
+        </h2>
+        <p class="text-slate-300 text-base leading-relaxed">
+          과거의 단속이 단순 과태료 부과와 반발을 낳았다면, <br class="hidden sm:inline">
+          <strong>화물주차장 2.0</strong>은 계도장 위의 QR코드를 통해 차주를 즉시 가장 가까운 합법 주차장으로 인도합니다.
+        </p>
+      </div>
+
+      <!-- Simulator Interactive Area -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-5xl mx-auto">
+
+        <!-- Left: Realistic Warning Notice Ticket -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div
+            class="w-full max-w-sm bg-amber-50 rounded-2xl shadow-2xl p-6 text-slate-900 border-2 border-amber-300 relative transform hover:-rotate-1 transition-transform">
+            <!-- Red Warning Header -->
+            <div class="border-b-2 border-dashed border-amber-400 pb-4 mb-4 text-center">
+              <div class="inline-block px-3 py-1 bg-red-600 text-white font-black text-xs rounded mb-1">
+                계도 및 사전 경고장
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900">화물자동차 밤샘주차 안내통지서</h4>
+              <p class="text-[11px] text-slate-500 mt-0.5">남양주시 자동차관리과 (화물운송팀)</p>
+            </div>
+
+            <!-- Simulated details -->
+            <div class="text-xs space-y-2 text-slate-700 mb-5">
+              <div class="flex justify-between">
+                <span class="text-slate-500">일시:</span>
+                <span class="font-bold">2026. 10. 13. 02:15</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">단속 구역:</span>
+                <span class="font-bold">화도읍 마석우리 도로변</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">위반 사항:</span>
+                <span class="text-red-600 font-bold">화물자동차운수사업법 제11조</span>
+              </div>
+            </div>
+
+            <!-- QR Callout Box -->
+            <div
+              class="bg-white rounded-xl p-4 border border-amber-300 text-center shadow-inner relative group cursor-pointer"
+              onclick="simulateQRScan()">
+              <div class="text-[11px] font-bold text-nyj-blue mb-2 flex items-center justify-center gap-1">
+                <i class="fa-solid fa-qrcode"></i> 인근 합법 화물주차장 바로가기
+              </div>
+
+              <!-- SVG QR Code with Click Trigger -->
+              <div
+                class="w-36 h-36 mx-auto bg-slate-100 rounded-lg p-2 border border-slate-300 relative flex items-center justify-center group-hover:border-emerald-500 transition-colors">
+                <!-- QR Vector Graphic Mockup -->
+                <svg class="w-full h-full text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+                  <!-- QR Finder patterns -->
+                  <rect x="5" y="5" width="25" height="25" fill="#111" />
+                  <rect x="8" y="8" width="19" height="19" fill="#fff" />
+                  <rect x="12" y="12" width="11" height="11" fill="#111" />
+                  <rect x="70" y="5" width="25" height="25" fill="#111" />
+                  <rect x="73" y="8" width="19" height="19" fill="#fff" />
+                  <rect x="77" y="12" width="11" height="11" fill="#111" />
+                  <rect x="5" y="70" width="25" height="25" fill="#111" />
+                  <rect x="8" y="73" width="19" height="19" fill="#fff" />
+                  <rect x="12" y="77" width="11" height="11" fill="#111" />
+                  <!-- Random data modules -->
+                  <rect x="35" y="8" width="5" height="5" />
+                  <rect x="45" y="15" width="8" height="5" />
+                  <rect x="58" y="8" width="5" height="5" />
+                  <rect x="35" y="24" width="6" height="6" />
+                  <rect x="48" y="22" width="6" height="8" />
+                  <rect x="8" y="35" width="5" height="5" />
+                  <rect x="20" y="42" width="5" height="5" />
+                  <rect x="35" y="38" width="8" height="8" />
+                  <rect x="50" y="36" width="6" height="6" />
+                  <rect x="65" y="35" width="7" height="6" />
+                  <rect x="80" y="38" width="10" height="5" />
+                  <rect x="38" y="50" width="10" height="6" />
+                  <rect x="55" y="48" width="8" height="8" />
+                  <rect x="70" y="50" width="6" height="6" />
+                  <rect x="82" y="52" width="8" height="8" />
+                  <rect x="35" y="65" width="5" height="10" />
+                  <rect x="48" y="62" width="7" height="7" />
+                  <rect x="65" y="65" width="6" height="6" />
+                  <rect x="80" y="68" width="10" height="10" />
+                  <rect x="35" y="80" width="12" height="6" />
+                  <rect x="52" y="78" width="8" height="10" />
+                  <rect x="68" y="82" width="8" height="6" />
+                  <!-- Center Truck Icon -->
+                  <circle cx="50" cy="50" r="12" fill="#005bac" />
+                  <path d="M44 48 h8 v5 h-8 z" fill="#fff" />
+                </svg>
+
+                <div
+                  class="absolute inset-0 bg-emerald-600/20 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span class="text-xs font-black text-white bg-slate-900/90 px-2 py-1 rounded shadow">스캔 클릭</span>
+                </div>
+              </div>
+
+              <p class="text-[10px] text-slate-500 mt-2">
+                스마트폰 카메라로 비추거나 <strong class="text-nyj-blue underline">위 QR코드를 터치</strong>하세요.
+              </p>
+            </div>
+
+            <!-- Footer Warning -->
+            <p class="text-[10px] text-slate-500 text-center mt-3">
+              * 합법 주차장으로 즉시 이동 주차 시 과태료 감경 및 주차비 할인 혜택이 안내됩니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Mobile Screen Interface simulation showing what appears on scan -->
+        <div class="lg:col-span-7">
+          <div class="bg-slate-950 rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl relative">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-bold text-slate-300">우리동네 화물주차장 2.0 스마트 뷰어</span>
+              </div>
+              <span class="text-xs text-slate-400">시스템 구축률 80% 가동</span>
+            </div>
+
+            <!-- Simulated App UI Output -->
+            <div id="qrAppScreen" class="space-y-4">
+              <!-- Notice Banner -->
+              <div class="bg-emerald-950/60 border border-emerald-600/50 rounded-2xl p-4 flex items-start gap-3">
+                <div
+                  class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="fa-solid fa-location-crosshairs"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-emerald-300">내 현재 위치에서 가장 가까운 합법 주차장 발견!</h4>
+                  <p class="text-xs text-slate-300 mt-0.5">단속 지점(화도읍 마석우리) 기준 <strong>1.4km (차량 3분 거리)</strong>에 합법 주차면이
+                    있습니다.</p>
+                </div>
+              </div>
+
+              <!-- Recommendation Card -->
+              <div
+                class="bg-slate-900 rounded-xl p-4 border border-slate-700 hover:border-emerald-500/50 transition-colors">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <span
+                      class="text-[11px] font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">추천
+                      1순위</span>
+                    <h5 class="text-base font-bold text-white mt-1">우리동네 화물주차장 화도읍 1호점</h5>
+                    <p class="text-xs text-slate-400">남양주시 화도읍 묵현리 396-11</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-xs text-slate-400 block">잔여 주차면</span>
+                    <span class="text-lg font-black text-emerald-400">4면 가능</span>
+                  </div>
+                </div>
+
+                <!-- Action Button inside App Screen -->
+                <div class="mt-4 pt-3 border-t border-slate-800 flex gap-2">
+                  <button onclick="simulateRouteGuide()"
+                    class="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 transition-colors">
+                    <i class="fa-solid fa-diamond-turn-right"></i> 위치 안내
+                  </button>
+                  <button onclick="showQuickAlert('화도읍 1호점 차고지 등록 상담 연결이 요청되었습니다.')"
+                    class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs transition-colors">
+                    상담 예약
+                  </button>
+                </div>
+              </div>
+
+              <!-- Key Value Proposition of 2.0 -->
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                  <span class="text-slate-400 block mb-1">단속 위반 해소</span>
+                  <p class="text-slate-200 font-medium">안내 링크 확인 후 합법 주차장 이동 시 계도 처리 반영</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                  <span class="text-slate-400 block mb-1">Park & Ride 혜택</span>
+                  <p class="text-slate-200 font-medium">화물차 주차 후 본인 승용차로 바로 교대 귀가 가능</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Landowner & Broker Engagement Section -->
+  <section id="landowner" class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span
+          class="text-xs font-bold text-nyj-blue tracking-widest uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-200">민관
+          상생 거버넌스</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-4">
+          놀고 있는 유휴부지, 화물주차장으로 수익과 가치를 만듭니다
+        </h2>
+        <p class="text-slate-600 text-base leading-relaxed">
+          남양주시는 <strong>한국공인중개사협회 남양주시지회</strong>와 업무협약을 맺고 도심 속 숨은 자투리땅을 적극 발굴하고 있습니다.
+          토지 소유자에게는 안정적인 임대 수익을, 화물차주에게는 안심 주차 공간을 제공합니다.
+        </p>
+      </div>
+
+      <!-- 3 Key Benefits for Landowners -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-nyj-blue flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-money-bill-wave"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">안정적인 토지 임대 수익</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            나대지나 장기 미활용 토지를 방치하는 대신, 민간 운영사와의 신뢰할 수 있는 장기 임대 계약을 통해 매월 고정적인 임대 수익을 창출합니다.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+          <div
+            class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">부지 정비 및 펜스·CCTV 무상 조성</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            잡초가 우거지거나 쓰레기 무단투기로 몸살을 앓던 유휴지를 전문 운영업체가 파쇄석 포장, 펜스 설치, CCTV 구축 등 말끔하게 정비합니다.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-building-shield"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">남양주시 공식 행정 지원</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            남양주시가 해당 부지를 '밤샘주차 허용구역'으로 정식 지정 및 고시하여 행정적·법률적 안정성을 공공에서 보장합니다.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Land Proposal Application Card -->
+      <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg max-w-4xl mx-auto">
+        <div
+          class="border-b border-slate-100 pb-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-nyj-blue bg-blue-50 px-2.5 py-1 rounded">간편 부지 제안 창구</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">유휴부지 추천 및 임대 상담 신청</h3>
+          </div>
+          <span class="text-xs text-slate-500">
+            <i class="fa-solid fa-phone text-nyj-blue"></i> 남양주시 자동차관리과 화물팀 직통
+          </span>
+        </div>
+
+        <form id="landForm" onsubmit="handleLandForm(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">신청인 유형</label>
+              <select id="applicantType"
+                class="w-full px-3.5 py-2.5 text-base sm:text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-nyj-blue">
+                <option value="토지소유자">토지 소유자 (직접 제안)</option>
+                <option value="공인중개사">공인중개사 (매물 중개 제안)</option>
+                <option value="시민">지역 주민 (유휴부지 제보)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">성명 또는 상호명</label>
+              <input type="text" id="applicantName" required placeholder="예: 홍길동 / 남양주부동산"
+                class="w-full px-3.5 py-2.5 text-base sm:text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-nyj-blue">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">연락처</label>
+              <input type="tel" id="applicantPhone" required placeholder="예: 010-1234-5678"
+                class="w-full px-3.5 py-2.5 text-base sm:text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-nyj-blue">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">부지 소재지 (남양주시 내)</label>
+              <input type="text" id="landLocation" required placeholder="예: 남양주시 화도읍 묵현리 산 OO번지 일원"
+                class="w-full px-3.5 py-2.5 text-base sm:text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-nyj-blue">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">대략적인 면적 (평 또는 ㎡)</label>
+              <input type="text" id="landSize" placeholder="예: 약 400평 (화물차 15~20대 진입 가능)"
+                class="w-full px-3.5 py-2.5 text-base sm:text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-nyj-blue">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">현재 상태 (지목 및 현황)</label>
+              <input type="text" id="landStatus" placeholder="예: 잡종지, 나대지, 비포장 상태 등"
+                class="w-full px-3.5 py-2.5 text-base sm:text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-nyj-blue">
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit"
+              class="w-full py-3.5 bg-nyj-blue hover:bg-nyj-deep text-white font-bold rounded-xl text-sm transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i> 유휴부지 임대 검토 요청 제출하기
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Proactive Administration (적극행정) Story Section -->
+  <section id="history" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+        <!-- Left: Official Document Snapshot representation -->
+        <div class="lg:col-span-5">
+          <div
+            class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-xl relative">
+
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 rounded-lg bg-nyj-blue text-white flex items-center justify-center font-bold text-lg">
+                <i class="fa-solid fa-stamp"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-extrabold text-slate-900">「우리동네 화물주차장 2.0」 추진 계획</h4>
+              </div>
+            </div>
+
+            <!-- Key Milestones Quote -->
+            <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+              <div class="p-3 bg-blue-50/70 rounded-xl border border-blue-100 text-blue-900">
+                <strong>“안 되는 이유보다 될 수 있는 방법을 찾았다”</strong><br>
+                실무 주무관의 세미나 벤치마킹 아이디어가 팀장, 과장, 국장으로 이어지며 망설임 없이 신속하게 정책화되었습니다.
+              </div>
+              <ul class="space-y-1.5 list-disc list-inside text-slate-700">
+                <li><strong>2025. 08:</strong> 민간 물류 전문기업(빅모빌리티) 업무협약</li>
+                <li><strong>2025. 09:</strong> 화도읍 1호점 개소 (묵현리 396-11)</li>
+                <li><strong>2025. 12:</strong> 경기도 화물운수 시군종합평가 <strong>우수기관</strong> 선정</li>
+                <li><strong>2026. 02:</strong> 한국공인중개사협회 남양주시지회 협약</li>
+                <li><strong>2026. 05:</strong> 「우리동네 화물주차장 2.0」 추진계획 결재 확정</li>
+                <li><strong>2026. 07:</strong> 진접읍 장현리 7호점 개소 (총 223면 달성)</li>
+                <li><strong>현재:</strong> 타 지자체(원주시 등) 벤치마킹 방문 및 전국 확산</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Story narrative -->
+        <div class="lg:col-span-7 space-y-6">
+          <span
+            class="text-xs font-bold text-emerald-700 tracking-widest uppercase bg-emerald-50 px-3 py-1 rounded-full border border-emerald-300">적극행정
+            실천 사례</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 leading-tight">
+            단속 대상이었던 화물차주를<br>
+            <span class="text-nyj-blue">‘정책의 수혜자’</span>로 바라본 발상의 전환
+          </h2>
+
+          <p class="text-slate-600 text-base leading-relaxed">
+            과거 공무원들에게 화물차 밤샘주차는 '민원이 들어오면 단속하고 과태료를 매기는 골치 아픈 업무'였습니다.
+            하지만 현장에서 차주들은 매번 외쳤습니다.
+            <span class="font-semibold text-slate-800">"주차할 곳도 안 만들어주면서 왜 단속만 하느냐!"</span>
+          </p>
+
+          <p class="text-slate-600 text-sm leading-relaxed">
+            남양주시 자동차관리과는 이 목소리에 귀를 기울였습니다. 외부 세미나에서 민간 화물 주차장 운영 모델을 접한 담당 주무관의 보고에, 간부진은 "예산 부담 없이 차주들에게 실질적 혜택을 줄 수 있는
+            사업"이라며 신속한 추진을 전폭 지원했습니다.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+              <span class="text-xs font-bold text-slate-500 block mb-1">고경희 자동차관리과장</span>
+              <p class="text-xs text-slate-700 italic">
+                “시 예산을 들이지 않으면서도 합법 주차공간을 즉시 선물할 수 있어 실패 위험이 적다고 판단했습니다.”
+              </p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+              <span class="text-xs font-bold text-slate-500 block mb-1">유종형 화물팀장</span>
+              <p class="text-xs text-slate-700 italic">
+                “2.0의 본질은 계도와 공급의 연결입니다. 단속 현장에서 즉시 이동할 수 있는 디지털 출구를 만들어주는 것입니다.”
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-14">
+        <span
+          class="text-xs font-bold text-nyj-blue tracking-widest uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-200">궁금증
+          해결</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-2">자주 묻는 질문 (FAQ)</h2>
+        <p class="text-slate-600 text-sm">화물차주 및 토지 소유자분들이 가장 많이 질문하시는 내용입니다.</p>
+      </div>
+
+      <div class="space-y-4">
+
+
+        <!-- FAQ 1 -->
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <button onclick="toggleFaq('faq-1')"
+            class="w-full px-6 py-4 text-left flex justify-between items-center text-slate-900 font-bold text-sm focus:outline-none">
+            <span>Q1. 승용차와 화물차의 '환승(맞바꿈) 주차'는 어떻게 이루어지나요?</span>
+            <i id="faq-1-icon" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
+          </button>
+          <div id="faq-1-ans"
+            class="hidden px-6 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+            화물차주가 퇴근 후 본인의 승용차를 몰고 주차장에 도착하면, 주차된 화물차를 타고 영업에 나서는 동안 본인의 승용차를 해당 주차면에 대신 세워둘 수 있습니다. 별도의 승용차 주차요금 부담 없이
+            1대 정기권으로 1:1 교대 주차가 가능합니다.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <button onclick="toggleFaq('faq-2')"
+            class="w-full px-6 py-4 text-left flex justify-between items-center text-slate-900 font-bold text-sm focus:outline-none">
+            <span>Q2. 야간 단속에 걸렸을 때 QR코드를 스캔하면 어떤 혜택이 있나요?</span>
+            <i id="faq-2-icon" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
+          </button>
+          <div id="faq-2-ans"
+            class="hidden px-6 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+            단속 스티커 상단의 QR코드를 스캔하면 현재 위치에서 가장 가까운 공영·우리동네 화물주차장 위치와 잔여 면수가 실시간으로 표시됩니다. 즉시 지정 주차장으로 이동하여 주차한 사실이 인증될 경우
+            계도 조치 및 정기권 첫 달 할인 등의 연계 혜택을 제공받으실 수 있습니다.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <button onclick="toggleFaq('faq-3')"
+            class="w-full px-6 py-4 text-left flex justify-between items-center text-slate-900 font-bold text-sm focus:outline-none">
+            <span>Q3. 토지를 소유하고 있는데, 주차장 부지로 제공하려면 어떤 조건이 필요한가요?</span>
+            <i id="faq-3-icon" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
+          </button>
+          <div id="faq-3-ans"
+            class="hidden px-6 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+            대형 화물차(5톤~25톤)의 진출입이 가능한 최소 6m 이상의 진입도로가 확보되어 있어야 하며, 최소 300평 이상의 평탄한 부지(또는 정비 가능한 부지)가 적합합니다. 신청서를 제출하시면
+            남양주시와 운영사가 현장 실사를 거쳐 임대차 계약을 안내해 드립니다.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-14 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
+        <div>
+          © 2026 Namyangju City Government. All Rights Reserved. 본 사이트는 남양주시 우리동네 화물주차장 조성사업을 안내하기 위해 제작되었습니다.
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="px-2 py-0.5 rounded bg-slate-800 text-emerald-400 border border-slate-700">2025 경기도 화물분야
+            우수기관</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Document & Website Preview Modal -->
+  <div id="previewModal"
+    class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 transition-all">
+    <div id="previewModalBox"
+      class="bg-white rounded-2xl w-full max-w-5xl h-[88vh] max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-700/60 transition-all duration-300">
+
+      <!-- Modal Header -->
+      <div class="px-3 sm:px-5 py-3 sm:py-3.5 bg-slate-900 text-white flex items-center justify-between gap-2 border-b border-slate-800 shrink-0">
+        <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
+          <div id="previewModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs sm:text-sm shrink-0">
+            <i class="fa-solid fa-file-lines"></i>
+          </div>
+          <h4 id="previewModalTitle" class="font-bold text-xs sm:text-base truncate">미리보기</h4>
+        </div>
+
+        <!-- Controls: External Link, Fullscreen, Close -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <!-- 새 창으로 열기 -->
+          <a id="previewExternalLink" href="#" target="_blank" rel="noopener noreferrer"
+            class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-colors"
+            title="새 창으로 열기">
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            <span class="hidden sm:inline">새 창 열기</span>
+          </a>
+
+          <!-- 전체화면 토글 버튼 -->
+          <button type="button" onclick="togglePreviewFullscreen()" id="previewFullscreenBtn"
+            class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-nyj-blue hover:bg-blue-600 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+            title="전체화면 전환">
+            <i id="previewFullscreenIcon" class="fa-solid fa-expand text-xs"></i>
+            <span id="previewFullscreenText" class="hidden sm:inline">전체화면</span>
+          </button>
+
+          <!-- 닫기 버튼 -->
+          <button type="button" onclick="closePreviewModal()"
+            class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-400 hover:text-white flex items-center justify-center text-xs sm:text-sm transition-colors cursor-pointer"
+            title="닫기 (ESC)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body (Content container) -->
+      <div id="previewModalBody" class="flex-1 bg-slate-100 relative overflow-auto flex items-center justify-center p-0">
+        <!-- iframe for website or img for document will be inserted dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-5 py-2.5 bg-slate-900 text-xs text-slate-400 flex items-center justify-between border-t border-slate-800 shrink-0">
+        <span class="flex items-center gap-1.5 text-[11px]">
+          <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono text-[10px]">ESC</kbd>
+          <span>키를 누르면 창이 닫힙니다.</span>
+        </span>
+        <button type="button" onclick="closePreviewModal()"
+          class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-semibold transition-colors cursor-pointer">
+          닫기
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Navigation Modal -->
+  <div id="navModal"
+    class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div
+      class="bg-white rounded-2xl max-w-sm w-full p-6 text-slate-900 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+        <h4 class="font-bold text-base flex items-center gap-2">
+          <i class="fa-solid fa-diamond-turn-right text-nyj-blue"></i> 내비게이션 연결
+        </h4>
+        <button onclick="closeNavigationModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="py-4 space-y-3">
+        <p class="text-xs text-slate-600">원하시는 모바일 내비게이션 앱을 선택하시면 해당 주차장으로 즉시 길안내가 시작됩니다.</p>
+        <button onclick="simulateNavApp('티맵(TMAP)')"
+          class="w-full py-2.5 px-4 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl text-xs font-bold text-emerald-800 flex items-center justify-between">
+          <span>티맵 (TMAP) 실행</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </button>
+        <button onclick="simulateNavApp('카카오내비')"
+          class="w-full py-2.5 px-4 bg-yellow-50 hover:bg-yellow-100 border border-yellow-300 rounded-xl text-xs font-bold text-yellow-900 flex items-center justify-between">
+          <span>카카오내비 실행</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </button>
+        <button onclick="simulateNavApp('네이버지도')"
+          class="w-full py-2.5 px-4 bg-blue-50 hover:bg-blue-100 border border-blue-300 rounded-xl text-xs font-bold text-blue-900 flex items-center justify-between">
+          <span>네이버 지도 실행</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </button>
+      </div>
+      <button onclick="closeNavigationModal()"
+        class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl mt-2">
+        닫기
+      </button>
+    </div>
+  </div>
+
+  <!-- Register Inquiry Modal -->
+  <div id="inquiryModal"
+    class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 text-slate-900 shadow-2xl relative">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+        <h4 class="font-bold text-base flex items-center gap-2">
+          <i class="fa-solid fa-truck-ramp-box text-emerald-600"></i> 화물차 정기주차 배정 문의
+        </h4>
+        <button onclick="closeRegisterInquiryModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="py-4 space-y-3 text-xs">
+        <p class="text-slate-600">
+          선택하신 주차장의 월정기권은 <strong>㈜빅모빌리티 '트럭헬퍼'</strong> 통합 관리 시스템을 통해 온라인 자동 승인됩니다.
+        </p>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5 text-slate-700">
+          <div class="flex justify-between">
+            <span class="text-slate-500">배정 주차장:</span>
+            <strong id="inquiryLotName">화도읍 1호점 (묵현리)</strong>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">포함 혜택:</span>
+            <span class="text-emerald-700 font-bold">화물차 1대 + 승용차 교대주차 1대 무료</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">증명서:</span>
+            <span>차고지증명서 전자발급 연동</span>
+          </div>
+        </div>
+        <div class="pt-2">
+          <label class="block font-bold text-slate-700 mb-1">차량 번호 / 연락처 입력</label>
+          <input type="text" id="truckPlateNumber" placeholder="예: 80가 1234 / 010-0000-0000"
+            class="w-full px-3 py-2 border rounded-xl text-base sm:text-xs focus:ring-2 focus:ring-nyj-blue outline-none">
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="submitTruckInquiry()"
+          class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs">
+          배정 가능 여부 카톡 알림 신청
+        </button>
+        <button onclick="closeRegisterInquiryModal()"
+          class="py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">
+          취소
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Alert Toast (Replacing alert()) -->
+  <div id="toastNotification"
+    class="fixed bottom-6 right-6 z-50 transform translate-y-32 transition-transform duration-300 max-w-sm bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3">
+    <div id="toastIcon"
+      class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <div class="text-xs">
+      <strong id="toastTitle" class="block font-bold text-white mb-0.5">안내</strong>
+      <span id="toastMessage" class="text-slate-300">내용이 표시됩니다.</span>
+    </div>
+  </div>
+
+  <script>
+    // 7 Real & Planned Parking Lots Data based on article & document
+    const PARKING_LOTS = [
+      {
+        id: 'hwado-1',
+        name: '화도읍 1호점 (묵현리)',
+        category: 'hwado',
+        address: '남양주시 화도읍 묵현리 396-11',
+        capacity: 42,
+        surface: '쇄석/순환골재 포장',
+        security: '24시간 CCTV / 펜스 완비',
+        established: '2025년 9월 개소',
+        status: '운영중',
+        available: 4,
+        features: ['자가용 교대주차 무료', '화물차고지 증명서 발급', '조명타워 완비']
+      },
+      {
+        id: 'hwado-2',
+        name: '화도읍 2호점 (가곡리점)',
+        category: 'hwado',
+        address: '남양주시 화도읍 가곡리 284-5 일원',
+        capacity: 35,
+        surface: '파쇄석 평탄화 포장',
+        security: 'CCTV 4채널 / 자동 차단기',
+        established: '2025년 10월 개소',
+        status: '운영중',
+        available: 2,
+        features: ['자가용 교대주차 무료', '화물차고지 증명서 발급']
+      },
+      {
+        id: 'hwado-3',
+        name: '화도읍 3호점 (마석우리점)',
+        category: 'hwado',
+        address: '남양주시 화도읍 마석우리 142 일원',
+        capacity: 30,
+        surface: '파쇄석 포장',
+        security: '보안 펜스 / 고화질 CCTV',
+        established: '2025년 11월 개소',
+        status: '운영중',
+        available: 3,
+        features: ['도심 접근성 우수', '환승 거점']
+      },
+      {
+        id: 'jinjeop-1',
+        name: '진접읍 1호점 (양진로 물류벨트)',
+        category: 'jinjeop',
+        address: '남양주시 진접읍 양진로 621 일원',
+        capacity: 38,
+        surface: '골재 다짐 포장',
+        security: '차량번호 인식기 / CCTV',
+        established: '2025년 12월 개소',
+        status: '운영중',
+        available: 5,
+        features: ['쿠팡·CJ 물류센터 인접', '야간 조명']
+      },
+      {
+        id: 'jinjeop-2',
+        name: '진접읍 2호점 (팔야리점)',
+        category: 'jinjeop',
+        address: '남양주시 진접읍 팔야리 412-3 일원',
+        capacity: 28,
+        surface: '파쇄석 포장',
+        security: '원격 관제 CCTV',
+        established: '2026년 3월 개소',
+        status: '운영중',
+        available: 1,
+        features: ['대형 트레일러 회전반경 확보']
+      },
+      {
+        id: 'jinjeop-7',
+        name: '진접읍 7호점 (장현리 신규)',
+        category: 'jinjeop',
+        address: '남양주시 진접읍 장현리 341-1',
+        capacity: 25,
+        surface: '신규 친환경 쇄석 포장',
+        security: '최신 스마트 차단기 / CCTV',
+        established: '2026년 7월 개소',
+        status: '운영중',
+        available: 6,
+        features: ['2026 신규 부지', '스마트 QR 안내 연계 시범지']
+      },
+      {
+        id: 'other-1',
+        name: '와부·조안 거점점 (월문리)',
+        category: 'other',
+        address: '남양주시 와부읍 월문리 580 일원',
+        capacity: 25,
+        surface: '순환골재 포장',
+        security: 'CCTV / 야간 LED 조명',
+        established: '2026년 1월 개소',
+        status: '운영중',
+        available: 3,
+        features: ['남양주 남부 물류 연계', '승용차 맞바꿈 환승']
+      }
+    ];
+
+    let currentSelectedLot = PARKING_LOTS[0];
+
+    // Initialize list and render on DOM Load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderParkingLots('all');
+      selectLot(PARKING_LOTS[0].id);
+
+      // Mobile Menu Trigger
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      if (mobileBtn) {
+        mobileBtn.addEventListener('click', toggleMobileMenu);
+      }
+    });
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = el.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Render Parking Lots List
+    function renderParkingLots(categoryFilter) {
+      const container = document.getElementById('parkingLotContainer');
+      container.innerHTML = '';
+
+      const filtered = categoryFilter === 'all'
+        ? PARKING_LOTS
+        : PARKING_LOTS.filter(l => l.category === categoryFilter);
+
+      filtered.forEach((lot) => {
+        const isSelected = currentSelectedLot && currentSelectedLot.id === lot.id;
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer ${isSelected
+            ? 'bg-blue-50/80 border-nyj-blue shadow-md'
+            : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
+          }`;
+        card.onclick = () => selectLot(lot.id, true);
+
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-xl ${isSelected ? 'bg-nyj-blue text-white' : 'bg-slate-100 text-slate-600'} flex items-center justify-center text-base shrink-0 mt-0.5">
+                <i class="fa-solid fa-square-parking"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="text-base font-bold text-slate-900">${lot.name}</h4>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${lot.available > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
+                    ${lot.available > 0 ? `잔여 ${lot.available}면` : '만차'}
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                  <i class="fa-solid fa-location-dot text-slate-400"></i> ${lot.address}
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex sm:flex-col items-center sm:items-end justify-between text-right border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+              <span class="text-xs font-black text-slate-800">총 ${lot.capacity}면 규모</span>
+              <span class="text-[11px] text-slate-400 font-medium">${lot.established}</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterLots(cat) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-nyj-blue', 'text-white');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+      });
+      const activeBtn = document.getElementById(`filter-${cat}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+        activeBtn.classList.add('bg-nyj-blue', 'text-white');
+      }
+      renderParkingLots(cat);
+    }
+
+    function selectLot(lotId, isUserClick = false) {
+      const lot = PARKING_LOTS.find(l => l.id === lotId);
+      if (!lot) return;
+      currentSelectedLot = lot;
+
+      // Update Detail UI on Right
+      document.getElementById('detailTitle').textContent = lot.name;
+      document.getElementById('detailAddress').innerHTML = `<i class="fa-solid fa-location-dot text-slate-500"></i> ${lot.address}`;
+      document.getElementById('detailCapacity').textContent = `${lot.capacity}면`;
+      document.getElementById('detailSurface').textContent = lot.surface;
+      document.getElementById('detailSecurity').textContent = lot.security;
+
+      const inquiryName = document.getElementById('inquiryLotName');
+      if (inquiryName) inquiryName.textContent = lot.name;
+
+      // Re-highlight cards
+      const activeFilter = document.querySelector('.filter-btn.bg-nyj-blue')?.id.replace('filter-', '') || 'all';
+      renderParkingLots(activeFilter);
+
+      // 모바일/태블릿 화면 (1024px 미만)에서 사용자가 직접 터치한 경우 상세 카드로 부드럽게 스크롤 이동
+      if (isUserClick && window.innerWidth < 1024) {
+        const detailCard = document.getElementById('lotDetailContent');
+        if (detailCard) {
+          detailCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }
+
+    // Modal Handlers
+    function openNavigationModal() {
+      document.getElementById('navModal').classList.remove('hidden');
+    }
+    function closeNavigationModal() {
+      document.getElementById('navModal').classList.add('hidden');
+    }
+
+    function openRegisterInquiryModal() {
+      document.getElementById('inquiryModal').classList.remove('hidden');
+    }
+    function closeRegisterInquiryModal() {
+      document.getElementById('inquiryModal').classList.add('hidden');
+    }
+
+    function simulateNavApp(appName) {
+      closeNavigationModal();
+      showQuickAlert(`${currentSelectedLot.name} 목적지로 ${appName} 길안내가 연동되었습니다.`);
+    }
+
+    function submitTruckInquiry() {
+      const input = document.getElementById('truckPlateNumber').value.trim();
+      if (!input) {
+        showQuickAlert('차량번호 또는 연락처를 입력해주세요.', 'warning');
+        return;
+      }
+      closeRegisterInquiryModal();
+      document.getElementById('truckPlateNumber').value = '';
+      showQuickAlert(`[${currentSelectedLot.name}] 잔여석 알림 신청이 접수되었습니다. 문자로 즉시 링크가 발송됩니다.`);
+    }
+
+    // Simulate QR Scan
+    function simulateQRScan() {
+      const screen = document.getElementById('qrAppScreen');
+      screen.classList.add('opacity-50');
+      showQuickAlert('QR코드가 정상 스캔되었습니다. 2.0 스마트 안내 페이지를 로드합니다.');
+
+      setTimeout(() => {
+        screen.classList.remove('opacity-50');
+        screen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 400);
+    }
+
+    function simulateRouteGuide() {
+      showQuickAlert('화도읍 1호점(남양주시 화도읍 묵현리 396-11)으로 최단거리 주행 경로를 전송했습니다.');
+    }
+
+    // Handle Land Proposal Form
+    function handleLandForm(event) {
+      event.preventDefault();
+      const name = document.getElementById('applicantName').value.trim();
+      const phone = document.getElementById('applicantPhone').value.trim();
+      const location = document.getElementById('landLocation').value.trim();
+
+      if (!name || !phone || !location) {
+        showQuickAlert('필수 항목을 모두 작성해주세요.', 'warning');
+        return;
+      }
+
+      showQuickAlert(`[접수완료] ${name}님의 유휴부지(${location}) 제안이 등록되었습니다. 자동차관리과 화물팀에서 3영업일 내 유선 안내드립니다.`);
+      document.getElementById('landForm').reset();
+    }
+
+    // FAQ Accordion
+    function toggleFaq(faqId) {
+      const ans = document.getElementById(`${faqId}-ans`);
+      const icon = document.getElementById(`${faqId}-icon`);
+      if (ans.classList.contains('hidden')) {
+        ans.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      } else {
+        ans.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    }
+
+    // 2026 Activity List Dropdown Toggle
+    function toggleActivityList() {
+      const dropdown = document.getElementById('activityDropdown');
+      const icon = document.getElementById('activityToggleIcon');
+      if (dropdown.classList.contains('hidden')) {
+        dropdown.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      } else {
+        dropdown.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    }
+
+    // Document & Website Preview Modal Logic
+    let isPreviewFullscreen = false;
+
+    function openPreviewModal(type, title, url) {
+      const modal = document.getElementById('previewModal');
+      const titleEl = document.getElementById('previewModalTitle');
+      const iconEl = document.getElementById('previewModalIcon');
+      const bodyEl = document.getElementById('previewModalBody');
+      const extLink = document.getElementById('previewExternalLink');
+
+      if (!modal || !bodyEl) return;
+
+      titleEl.textContent = title;
+      extLink.href = url;
+
+      if (type === 'iframe') {
+        iconEl.innerHTML = '<i class="fa-solid fa-globe text-blue-400"></i>';
+        bodyEl.className = 'flex-1 bg-white relative overflow-hidden p-0';
+        bodyEl.innerHTML = `
+          <iframe src="${url}" class="w-full h-full border-0" title="${title}" loading="lazy"></iframe>
+        `;
+      } else if (type === 'image') {
+        iconEl.innerHTML = '<i class="fa-solid fa-file-invoice text-orange-400"></i>';
+        bodyEl.className = 'flex-1 bg-slate-900/90 relative overflow-auto flex items-center justify-center p-4';
+        bodyEl.innerHTML = `
+          <img src="${url}" alt="${title}" class="max-w-full max-h-full object-contain shadow-2xl rounded-lg mx-auto" />
+        `;
+      }
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePreviewModal() {
+      const modal = document.getElementById('previewModal');
+      if (!modal || modal.classList.contains('hidden')) return;
+
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+      resetPreviewFullscreenState();
+
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+
+      const bodyEl = document.getElementById('previewModalBody');
+      if (bodyEl) bodyEl.innerHTML = '';
+    }
+
+    function togglePreviewFullscreen() {
+      const modalBox = document.getElementById('previewModalBox');
+      const fsIcon = document.getElementById('previewFullscreenIcon');
+      const fsText = document.getElementById('previewFullscreenText');
+
+      if (!isPreviewFullscreen) {
+        if (modalBox.requestFullscreen) {
+          modalBox.requestFullscreen().catch(() => {});
+        }
+        modalBox.classList.add('fixed', 'inset-0', 'w-screen', 'h-screen', 'max-w-none', 'max-h-none', 'rounded-none', 'z-50');
+        modalBox.classList.remove('rounded-2xl', 'max-w-5xl', 'h-[88vh]', 'max-h-[92vh]');
+        if (fsIcon) fsIcon.className = 'fa-solid fa-compress text-xs';
+        if (fsText) fsText.textContent = '창 크기 복원';
+        isPreviewFullscreen = true;
+      } else {
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        }
+        resetPreviewFullscreenState();
+      }
+    }
+
+    function resetPreviewFullscreenState() {
+      const modalBox = document.getElementById('previewModalBox');
+      const fsIcon = document.getElementById('previewFullscreenIcon');
+      const fsText = document.getElementById('previewFullscreenText');
+
+      if (modalBox) {
+        modalBox.classList.remove('fixed', 'inset-0', 'w-screen', 'h-screen', 'max-w-none', 'max-h-none', 'rounded-none', 'z-50');
+        modalBox.classList.add('rounded-2xl', 'max-w-5xl', 'h-[88vh]', 'max-h-[92vh]');
+      }
+      if (fsIcon) fsIcon.className = 'fa-solid fa-expand text-xs';
+      if (fsText) fsText.textContent = '전체화면';
+      isPreviewFullscreen = false;
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement && isPreviewFullscreen) {
+        resetPreviewFullscreenState();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const previewModal = document.getElementById('previewModal');
+        if (previewModal && !previewModal.classList.contains('hidden')) {
+          if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+            resetPreviewFullscreenState();
+          } else {
+            closePreviewModal();
+          }
+        }
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('previewModal');
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            closePreviewModal();
+          }
+        });
+      }
+    });
+
+    // Custom Toast Notification (Replaces alert())
+    let toastTimeout = null;
+    function showQuickAlert(message, type = 'info') {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = message;
+
+      if (type === 'warning') {
+        toastTitle.textContent = '확인 필요';
+        toastIcon.className = 'w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0';
+        toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
+      } else {
+        toastTitle.textContent = '남양주시 스마트 알림';
+        toastIcon.className = 'w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0';
+        toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      }
+
+      toast.classList.remove('translate-y-32');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-32');
+      }, 3500);
+    }
+  </script>
+</body>
+
+</html>
